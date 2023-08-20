@@ -2,10 +2,16 @@ import request from 'supertest'
 
 import app from '../../app'
 
+import db from '../../db/db'
+
 describe('Card', () => {
+  afterAll(() => [
+    db.destroy()
+  ])
+
   test('get card by id', async () => {
     const id = 1
-    const expectedReponse: Card = { id: 1, status: 'active', companyId: 1, }
+    const expectedReponse = { id: 1, status: 'active', companyId: 1, }
 
     const res = await request(app).get(`/api/card/${id}`)
 
@@ -15,7 +21,7 @@ describe('Card', () => {
 
   test('get company cards', async () => {
     const companyId = 1
-    const expectedReponse: Card[] = [
+    const expectedReponse = [
       { id: 1, status: 'active', companyId: 1, }
     ]
 
@@ -27,7 +33,7 @@ describe('Card', () => {
 
   test('activate card', async () => {
     const cardId = 2
-    const expectedReponse: CardActivationResult = { result: 'success' }
+    const expectedReponse = { result: 'success' }
 
     const res = await request(app).post(`/api/card/activate/${cardId}`)
 
@@ -37,7 +43,7 @@ describe('Card', () => {
 
   test('deactivate card', async () => {
     const cardId = 2
-    const expectedReponse: CardActivationResult = { result: 'success' }
+    const expectedReponse = { result: 'success' }
 
     const res = await request(app).post(`/api/card/deactivate/${cardId}`)
 

@@ -1,8 +1,8 @@
-import knex from '../db'
+import db from '../db'
 
 export const getInvoice = async (id: Number) => {
   try {
-    const [invoice] = await knex('invoices')
+    const [invoice] = await db('invoices')
       .join('vendors', 'invoices.vendor_id', '=', 'vendors.id')
       .select({
         id: 'invoices.id',
@@ -19,14 +19,13 @@ export const getInvoice = async (id: Number) => {
 
     return { invoice }
   } catch (error) {
-    console.log(error)
     return { error }
   }
 }
 
 export const getInvoiceForCompany = async (companyId: Number) => {
   try {
-    const invoices = await knex('invoices')
+    const invoices = await db('invoices')
       .join('vendors', 'invoices.vendor_id', '=', 'vendors.id')
       .select({
         id: 'invoices.id',
@@ -44,14 +43,13 @@ export const getInvoiceForCompany = async (companyId: Number) => {
     if (invoices.length === 0) return { invoices: [] }
     return { invoices }
   } catch (error) {
-    console.log(error)
     return { error }
   }
 }
 
 export const insertInvoice = async (invoice: NewInvoice, status: string) => {
   try {
-    const [insertedInvoice] = await knex('invoices')
+    const [insertedInvoice] = await db('invoices')
       .insert({
         company_id: invoice.companyId,
         vendor_id: invoice.vendorId,
@@ -65,16 +63,14 @@ export const insertInvoice = async (invoice: NewInvoice, status: string) => {
 
     return { id: insertedInvoice.id }
   } catch (error) {
-    console.log(error)
     return { error }
   }
 }
 
 export const updateInvoiceStatus = async (id: Number, status: string) => {
   try {
-    await knex('invoices').update('status', status).where('id', id)
+    await db('invoices').update('status', status).where('id', id)
   } catch (error) {
-    console.log(error)
     return { error }
   }
 }

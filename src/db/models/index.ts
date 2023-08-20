@@ -40,4 +40,5 @@ export interface Transation {
   account_id: number
   invoice_id: number
   amount: number
+  created_At: Date
 }

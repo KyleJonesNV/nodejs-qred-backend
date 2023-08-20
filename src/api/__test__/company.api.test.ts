@@ -2,10 +2,16 @@ import request from 'supertest'
 
 import app from '../../app'
 
+import db from '../../db/db'
+
 describe('Company', () => {
+  afterAll(() => [
+    db.destroy()
+  ])
+
   test('get company by id', async () => {
     const id = 1
-    const expectedResponse: Company = {
+    const expectedResponse = {
       id: 1,
       name: 'Company AB'
     }
@@ -15,7 +21,7 @@ describe('Company', () => {
 
   test('get company by name', async () => {
     const companyName = 'Company AB'
-    const expectedResponse: Company = {
+    const expectedResponse = {
       id: 1,
       name: 'Company AB'
     }

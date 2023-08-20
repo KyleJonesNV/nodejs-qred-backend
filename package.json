@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc --project tsconfig.json",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.ts",
     "rollback": "knex migrate:rollback --all --knexfile src/db/knexfile.ts",
     "seed": "knex seed:run --knexfile src/db/knexfile.ts",
+    "reset": "npm run rollback && npm run migrate && npm run seed",
     "test": "jest"
   },
   "keywords": [],

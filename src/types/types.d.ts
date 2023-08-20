@@ -36,6 +36,7 @@ type Transaction = {
   invoiceId: Number
   amount: Number
   vendorName: String
+  createdAt: Date
 }
 
 type NewTransation = {

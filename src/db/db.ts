@@ -2,6 +2,6 @@ import 'dotenv/config'
 import Knex from 'knex'
 import config from './knexfile'
 
-const knex = Knex(config.development)
+const db = Knex(config.development)
 
-export default knex
+export default db

@@ -18,7 +18,7 @@ transactions.get('/company/:companyId', async (req: Request, res: Response) => {
   const { companyId } = req.params
   try {
     const transactions = await getTransactionsForCompany(parseInt(companyId))
-    if (transactions.error) res.json({ error: transactions.error })
+    if (transactions.error) return res.json({ error: transactions.error })
     res.json(transactions)
   } catch (error) {
     res.json(error)

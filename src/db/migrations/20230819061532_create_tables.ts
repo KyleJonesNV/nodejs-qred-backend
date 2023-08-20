@@ -36,7 +36,7 @@ export async function up(knex: Knex): Promise<void> {
       table.date('due_date')
       table.decimal('amount').notNullable()
       table.string('status', 255)
-      table.timestamps()
+      table.timestamps(true, true)
 
       table.foreign('company_id').references('id').inTable('companies')
       table.foreign('vendor_id').references('id').inTable('vendors')
@@ -47,7 +47,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('invoice_id').unsigned().notNullable()
       table.integer('vendor_id').unsigned().notNullable()
       table.decimal('amount')
-      table.timestamps()
+      table.timestamps(true, true)
 
       table.foreign('account_id').references('id').inTable('accounts')
       table.foreign('invoice_id').references('id').inTable('invoices')

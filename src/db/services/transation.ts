@@ -1,8 +1,8 @@
-import knex from '../db'
+import db from '../db'
 
 export const getTransaction = async (transationId: Number) => {
   try {
-    const [transation] = await knex('transations')      
+    const [transation] = await db('transations')      
       .join('vendors', 'transations.vendor_id', '=', 'vendors.id')      
       .where('transations.id', transationId)
       .select({
@@ -10,7 +10,8 @@ export const getTransaction = async (transationId: Number) => {
         accountId: 'transations.account_id',
         invoiceId: 'transations.invoice_id',
         amount: 'transations.amount',
-        vendorName: 'vendors.name'
+        vendorName: 'vendors.name',
+        createdAt: 'created_at'
      })
 
     return { transation }
@@ -21,7 +22,7 @@ export const getTransaction = async (transationId: Number) => {
 
 export const getTransactionsForCompany = async (accountId: Number) => {
   try {
-    const transations = await knex('transations')
+    const transations = await db('transations')
       .join('vendors', 'transations.vendor_id', '=', 'vendors.id')
       .where('account_id', accountId)
       .select({
@@ -29,7 +30,8 @@ export const getTransactionsForCompany = async (accountId: Number) => {
         accountId: 'transations.account_id',
         invoiceId: 'transations.invoice_id',
         amount: 'transations.amount',
-        vendorName: 'vendors.name'
+        vendorName: 'vendors.name',
+        createdAt: 'created_at'
      })
 
     return { transations }
@@ -40,7 +42,7 @@ export const getTransactionsForCompany = async (accountId: Number) => {
 
 export const insertTransation = async (newTransation: NewTransation) => {
   try {
-    const [transation] = await knex('transations')
+    const [transation] = await db('transations')
       .insert({
         account_id: newTransation.accountId,
         invoice_id: newTransation.invoiceId,
@@ -51,7 +53,6 @@ export const insertTransation = async (newTransation: NewTransation) => {
 
     return { transation }
   } catch (error) {
-    console.log(error)
     return { error }
   }
 }

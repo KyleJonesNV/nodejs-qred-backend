@@ -2,10 +2,16 @@ import request from 'supertest'
 
 import app from '../../app'
 
+import db from '../../db/db'
+
 describe('Invoice', () => {
+  afterAll(() => [
+    db.destroy()
+  ])
+
   test('get invoice by id', async () => {
     const id = 1
-    const expectedReponse: Invoice = {
+    const expectedReponse = {
       id: 1,
       title: 'apples',
       description: 'batch of apples',
@@ -14,7 +20,7 @@ describe('Invoice', () => {
       amount: 100.0,
       vendorId: 1,
       vendorName: 'street food',
-      vendorImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vector%2Fasian-street-food-vendor-cartoon-vector-36110993&psig=AOvVaw0UGlJu9paMpmoRtLa7D1am&ust=1692512468525000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKDF9rWK6IADFQAAAAAdAAAAABAE'
+      vendorImage: 'https://st2.depositphotos.com/6942046/10778/i/450/depositphotos_107780320-stock-photo-promotion-counter-on-wheels-with.jpg'
     }
 
     const res = await request(app).get(`/api/invoice/${id}`)
@@ -24,7 +30,7 @@ describe('Invoice', () => {
 
   test('get invoices for company', async () => {
     const companyID = 1
-    const expectedReponse: Invoice[] = [
+    const expectedReponse = [
       {
         id: 1,
         title: 'apples',
@@ -34,7 +40,7 @@ describe('Invoice', () => {
         amount: 100.0,
         vendorId: 1,
         vendorName: 'street food',
-        vendorImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vector%2Fasian-street-food-vendor-cartoon-vector-36110993&psig=AOvVaw0UGlJu9paMpmoRtLa7D1am&ust=1692512468525000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKDF9rWK6IADFQAAAAAdAAAAABAE'
+        vendorImage: 'https://st2.depositphotos.com/6942046/10778/i/450/depositphotos_107780320-stock-photo-promotion-counter-on-wheels-with.jpg'
       },
       {
         id: 2,
@@ -45,7 +51,7 @@ describe('Invoice', () => {
         amount: 100.0,
         vendorId: 1,
         vendorName: 'street food',
-        vendorImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vector%2Fasian-street-food-vendor-cartoon-vector-36110993&psig=AOvVaw0UGlJu9paMpmoRtLa7D1am&ust=1692512468525000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKDF9rWK6IADFQAAAAAdAAAAABAE'
+        vendorImage: 'https://st2.depositphotos.com/6942046/10778/i/450/depositphotos_107780320-stock-photo-promotion-counter-on-wheels-with.jpg'
       }
     ]
 
@@ -54,7 +60,7 @@ describe('Invoice', () => {
   })
 
   test('add and pay invoice', async () => {
-    const newInvoice: NewInvoice = {
+    const newInvoice = {
       companyId: 2,
       title: 'carrot',
       description: 'batch of carrots',

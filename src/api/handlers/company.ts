@@ -9,7 +9,7 @@ company.get('/:id', async (req: Request, res: Response) => {
     const company = await getCompany(parseInt(id))
     res.json({company: company})
   } catch (error) {
-    console.log(error)
+    res.json(error)
   }
 })
 
@@ -19,7 +19,7 @@ company.get('/name/:name', async (req: Request, res: Response) => {
     const company = await getCompanyByName(name)
     res.json({company: company})
   } catch (error) {
-    console.log(error)
+    res.json(error)
   }
 })
 
@@ -30,7 +30,7 @@ company.post('/', async (req: Request, res: Response) => {
     const result = await insertCompany(name)
     res.json(result)
   } catch (error) {
-    console.log(error)
+    res.json(error)
   }
 })
 

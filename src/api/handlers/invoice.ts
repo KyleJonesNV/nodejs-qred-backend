@@ -7,8 +7,9 @@ const invoice = Router()
 invoice.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   try {
-    const invoice = await getInvoice(parseInt(id))
-    res.json(invoice)
+    const result = await getInvoice(parseInt(id))
+    if (result.error) return res.status(500).json({ error: result.error })
+    res.json({ invoice: result.invoice })
   } catch (error) {
     res.json(error)
   }
@@ -17,9 +18,9 @@ invoice.get('/:id', async (req: Request, res: Response) => {
 invoice.get('/company/:companyId', async (req: Request, res: Response) => {
   const { companyId } = req.params
   try {
-    const response = await getInvoiceForCompany(parseInt(companyId))
-    if (response.error) return res.status(500).json({ error: response.error })
-    res.json({ invoices: response.invoices })
+    const result = await getInvoiceForCompany(parseInt(companyId))
+    if (result.error) return res.status(500).json({ error: result.error })
+    res.json({ invoices: result.invoices })
   } catch (error) {
     res.json(error)
   }
@@ -39,13 +40,11 @@ invoice.post('/', async (req: Request, res: Response) => {
 invoice.post('/pay', async (req: Request, res: Response) => {
   const { accountId, invoiceId } = req.body
   try {
-    const error = await payInvoice(accountId, invoiceId)    
-    if (error) {
-      return res.json({error})
-    }
+    const result = await payInvoice(accountId, invoiceId)
+    if (result?.error) return res.status(500).json({ error: result.error })
     res.json({ result: 'success' })
   } catch (error) {
-    res.status(500).json({error})
+    res.status(500).json({ error })
   }
 })
 
