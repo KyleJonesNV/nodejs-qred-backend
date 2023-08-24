@@ -16,7 +16,7 @@ describe('Transaction', () => {
     const res = await request(app).get(`/api/transaction/${id}`)
 
     expect(res.body.error).toBeUndefined()
-    expect(res.body.transation).toStrictEqual(expectedReponse)
+    expect(res.body.transaction).toStrictEqual(expectedReponse)
   })
 
   test('get company transactions', async () => {
@@ -26,7 +26,7 @@ describe('Transaction', () => {
     const res = await request(app).get(`/api/transaction/company/${companyId}`)
 
     expect(res.body.error).toBeUndefined()
-    expect(res.body.transations).toStrictEqual(expectedReponse)
+    expect(res.body.transactions).toStrictEqual(expectedReponse)
     
   })
 })

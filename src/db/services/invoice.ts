@@ -17,9 +17,9 @@ export const getInvoice = async (id: Number) => {
       })
       .where('invoices.id', id)
 
-    return { invoice }
+    return invoice
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -40,10 +40,10 @@ export const getInvoiceForCompany = async (companyId: Number) => {
       })
       .where('invoices.company_id', companyId)
 
-    if (invoices.length === 0) return { invoices: [] }
-    return { invoices }
+    if (invoices.length === 0) return []
+    return invoices
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -61,9 +61,9 @@ export const insertInvoice = async (invoice: NewInvoice, status: string) => {
       })
       .returning('id')
 
-    return { id: insertedInvoice.id }
+    return insertedInvoice.id
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -71,6 +71,6 @@ export const updateInvoiceStatus = async (id: Number, status: string) => {
   try {
     await db('invoices').update('status', status).where('id', id)
   } catch (error) {
-    return { error }
+    throw error
   }
 }

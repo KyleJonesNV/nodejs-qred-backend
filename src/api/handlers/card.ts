@@ -1,48 +1,46 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { activateCard, deactivateCard } from '../controller'
 import { getCard, getCardsForCompany } from '../../db/services/card'
 
 const card = Router()
 
-card.get('/:id', async (req: Request, res: Response) => {
+card.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const card = await getCard(parseInt(id))
-    res.json(card)
+    res.json({card})
   } catch (error) {
-    res.json(error)
+    next(error)
   }
 })
 
-card.get('/company/:companyId', async (req: Request, res: Response) => {
+card.get('/company/:companyId', async (req: Request, res: Response, next: NextFunction) => {
   const { companyId } = req.params
   try {
     const cards = await getCardsForCompany(parseInt(companyId))
-    res.json(cards)
+    res.json({cards})
   } catch (error) {
-    res.json(error)
+    next(error)
   }
 })
 
-card.post('/activate/:cardId', async (req: Request, res: Response) => {
+card.post('/activate/:cardId', async (req: Request, res: Response, next: NextFunction) => {
   const { cardId } = req.params
   try {
-    const response = await activateCard(parseInt(cardId))
-    if (response?.error) res.json({ error: response?.error?.toString() })
+    await activateCard(parseInt(cardId))
     res.json({ result: 'success' })
   } catch (error) {
-    res.json({ error })
+    next(error)
   }
 })
 
-card.post('/deactivate/:cardId', async (req: Request, res: Response) => {
+card.post('/deactivate/:cardId', async (req: Request, res: Response, next: NextFunction) => {
   const { cardId } = req.params
   try {
-    const response = await deactivateCard(parseInt(cardId))
-    if (response?.error) res.json({ error: response?.error?.toString() })
+    await deactivateCard(parseInt(cardId))
     res.json({ result: 'success' })
   } catch (error) {
-    res.json({ error })
+    next(error)
   }
 })
 

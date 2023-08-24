@@ -36,4 +36,15 @@ describe('Account', () => {
     expect(res.body.error).toBeUndefined()
     expect(res.body.accounts).toStrictEqual(expectedReponse)
   })
+
+  test('unknown id', async () => {
+    const id = -1
+    const expectedReponse = {
+      error: 'unknown id'
+    }
+
+    const res = await request(app).get(`/api/account/${id}`)
+
+    expect(res.body).toEqual(expectedReponse)
+  })
 })

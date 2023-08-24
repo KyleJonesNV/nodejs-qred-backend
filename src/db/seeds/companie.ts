@@ -24,7 +24,8 @@ export async function seed(knex: Knex): Promise<void> {
 
   await knex('cards').insert([
     { id: 1, company_id: 1, status: 'active' },
-    { id: 2, company_id: 2, status: 'active' }
+    { id: 2, company_id: 2, status: 'active' },
+    { id: 3, company_id: 4, status: 'deactive' }
   ])
 
   await knex('vendors').insert([

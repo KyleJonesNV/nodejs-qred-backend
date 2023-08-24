@@ -72,11 +72,13 @@ describe('Invoice', () => {
     const accountId = 2
 
     let res = await request(app).post(`/api/invoice/`).send(newInvoice)
+    expect(res.body.error).toBeUndefined()
     expect(res.body.result).toBe('success')
     expect(typeof res.body.id).toBe('number')
     const invoiceId = res.body.id
 
     res = await request(app).get(`/api/invoice/${invoiceId}`)
+    expect(res.body.error).toBeUndefined()
     expect(res.body.invoice.title).toBe('carrot')
     expect(res.body.invoice.status).toBe('payable')
 
@@ -85,6 +87,7 @@ describe('Invoice', () => {
     expect(res.body.result).toBe('success')
 
     res = await request(app).get(`/api/invoice/${invoiceId}`)
+    expect(res.body.error).toBeUndefined()
     expect(res.body.invoice.title).toBe('carrot')
     expect(res.body.invoice.status).toBe('paid')
   })

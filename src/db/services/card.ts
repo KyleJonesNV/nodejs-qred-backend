@@ -9,9 +9,11 @@ export const getCard = async (id: Number) => {
       status: 'status'
     })
 
-    return { card }
+    if (card === undefined) throw new Error('unknown card')
+
+    return card
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -23,9 +25,11 @@ export const getCardsForCompany = async (companyId: Number) => {
       status: 'status'
     })
 
-    return { cards }
+    if (cards === undefined) return []
+
+    return cards
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -33,6 +37,6 @@ export const updateCardStatus = async (id: Number, status: string) => {
   try {
     await db('cards').update('status', status).where('id', id)
   } catch (error) {
-    return { error }
+    throw error
   }
 }

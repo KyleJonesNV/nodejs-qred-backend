@@ -1,5 +1,6 @@
 import { Account } from '../models'
 import db from '../db'
+import { logError } from '../../middleware/errorhandler'
 
 export const getAccount = async (id: Number) => {
   try {
@@ -9,9 +10,11 @@ export const getAccount = async (id: Number) => {
       currentSpending: 'current_spending'
     })
 
-    return { account }
-  } catch (error) {
-    return { error }
+    if (account === undefined) throw new Error('unknown id')
+
+    return account
+  } catch (error) {    
+    throw error
   }
 }
 
@@ -25,23 +28,20 @@ export const getAccountsForCompany = async (companyId: Number) => {
 
     return { accounts }
   } catch (error) {
-    return { error }
+    logError(error)
   }
 }
 
 export const updateAccountSpending = async (accountId: Number, currentSpending: Number) => {
   try {
-    const accounts = await db<Account>('accounts')
-      .where('id', accountId)
-      .update('current_spending', currentSpending)
-      .select({
+    const account = await db<Account>('accounts').where('id', accountId).update('current_spending', currentSpending).select({
       id: 'accounts.id',
       spendingLimit: 'accounts.spending_limit',
       currentSpending: 'accounts.current_spending'
     })
 
-    return { accounts }
+    return account
   } catch (error) {
-    return { error }
+    logError(error)
   }
 }

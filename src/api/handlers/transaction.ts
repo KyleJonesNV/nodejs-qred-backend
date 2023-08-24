@@ -1,27 +1,25 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { getTransaction, getTransactionsForCompany } from '../../db/services/transation'
 
 const transactions = Router()
 
-transactions.get('/:id', async (req: Request, res: Response) => {
+transactions.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
-    const transation = await getTransaction(parseInt(id))
-    if (transation.error) res.json({ error: transation.error })
-    res.json(transation)
+    const transaction = await getTransaction(parseInt(id))
+    res.json({transaction})
   } catch (error) {
-    res.json(error)
+    next(error)
   }
 })
 
-transactions.get('/company/:companyId', async (req: Request, res: Response) => {
+transactions.get('/company/:companyId', async (req: Request, res: Response, next: NextFunction) => {
   const { companyId } = req.params
   try {
     const transactions = await getTransactionsForCompany(parseInt(companyId))
-    if (transactions.error) return res.json({ error: transactions.error })
-    res.json(transactions)
+    res.json({transactions})
   } catch (error) {
-    res.json(error)
+    next(error)
   }
 })
 

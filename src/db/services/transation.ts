@@ -14,9 +14,9 @@ export const getTransaction = async (transationId: Number) => {
         createdAt: 'created_at'
      })
 
-    return { transation }
+    return transation
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -34,9 +34,9 @@ export const getTransactionsForCompany = async (accountId: Number) => {
         createdAt: 'created_at'
      })
 
-    return { transations }
+    return transations
   } catch (error) {
-    return { error }
+    throw error
   }
 }
 
@@ -51,8 +51,8 @@ export const insertTransation = async (newTransation: NewTransation) => {
       })
       .returning('*')
 
-    return { transation }
+    return transation
   } catch (error) {
-    return { error }
+    throw error
   }
 }
